@@ -4,8 +4,19 @@ const path = require('path');
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-//grab the data from db.json file
-const notes = require('./public/db/db.json');
-
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+// display the index.html webpage
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/index.html'))
+})
+
+//display notes.html webpage
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/notes.html'))
+})
+
+app.listen(PORT, () => 
+    console.log(`Express server port listening at ${PORT}!`)
+);
