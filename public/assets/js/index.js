@@ -4,6 +4,7 @@ let saveNoteBtn;
 let newNoteBtn;
 let noteList;
 
+// get the corresponding querySelectors from /notes URL
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');
   noteText = document.querySelector('.note-textarea');
@@ -12,12 +13,12 @@ if (window.location.pathname === '/notes') {
   noteList = document.querySelectorAll('.list-container .list-group');
 }
 
-// Show an element
+// Show an element in HTML using style.display
 const show = (elem) => {
   elem.style.display = 'inline';
 };
 
-// Hide an element
+// Hide an element in html
 const hide = (elem) => {
   elem.style.display = 'none';
 };
@@ -25,6 +26,7 @@ const hide = (elem) => {
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
 
+// get information from '/api/notes' URL
 const getNotes = () =>
   fetch('/api/notes', {
     method: 'GET',
@@ -33,15 +35,18 @@ const getNotes = () =>
     },
   });
 
+  // function to save a note
 const saveNote = (note) =>
   fetch('/api/notes', {
     method: 'POST',
+    //submit data as applicattion/json format
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(note),
   });
 
+  // function to delete note
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
     method: 'DELETE',
@@ -50,14 +55,22 @@ const deleteNote = (id) =>
     },
   });
 
+//function to show the most recent active note
+
 const renderActiveNote = () => {
+
+  // hide the saveNoteButton
   hide(saveNoteBtn);
 
+  // if there is a note saved in activeNote database
+  // set as readonly to read the title,text of each note and grab corresponding values
   if (activeNote.id) {
     noteTitle.setAttribute('readonly', true);
     noteText.setAttribute('readonly', true);
     noteTitle.value = activeNote.title;
     noteText.value = activeNote.text;
+  // else remove the readonly attribute and set title and tex to empty string
+
   } else {
     noteTitle.removeAttribute('readonly');
     noteText.removeAttribute('readonly');
@@ -66,11 +79,13 @@ const renderActiveNote = () => {
   }
 };
 
+// function to handle the saved notes
 const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
   };
+  // if newNote exists then render the note
   saveNote(newNote).then(() => {
     getAndRenderNotes();
     renderActiveNote();
@@ -82,7 +97,9 @@ const handleNoteDelete = (e) => {
   // Prevents the click listener for the list from being called when the button inside of it is clicked
   e.stopPropagation();
 
+  // grab the specific note
   const note = e.target;
+  // ASK, where is data-note coming from? dont see it in HTML file
   const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
 
   if (activeNote.id === noteId) {
@@ -108,6 +125,7 @@ const handleNewNoteView = (e) => {
   renderActiveNote();
 };
 
+// if nothing is written in noteTitle or noteText, hide the savebutton. else display it!
 const handleRenderSaveBtn = () => {
   if (!noteTitle.value.trim() || !noteText.value.trim()) {
     hide(saveNoteBtn);
@@ -116,7 +134,7 @@ const handleRenderSaveBtn = () => {
   }
 };
 
-// Render the list of note titles
+// show the list of note titles
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
   if (window.location.pathname === '/notes') {
