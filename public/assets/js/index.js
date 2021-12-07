@@ -100,7 +100,6 @@ const handleNoteDelete = (e) => {
 
   // grab the specific note
   const note = e.target;
-  // ASK, where is data-note coming from? dont see it in HTML file
   const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
 
   if (activeNote.id === noteId) {
@@ -144,6 +143,7 @@ const renderNoteList = async (notes) => {
   console.log("NOTES", jsonNotes);
   if (window.location.pathname === '/notes.html') {
     console.log(noteList)
+// used to remove prev nodes so that we dont have repeating elements
     noteList.forEach((el) => (el.innerHTML = ''));
   }
 
@@ -192,7 +192,7 @@ const renderNoteList = async (notes) => {
   console.log(window.location.pathname);
   if (window.location.pathname === '/notes.html') {
     noteListItems.forEach((note) => noteList[0].append(note));
-    console.log(noteList)
+    console.log("NOTES", noteList)
   }
 };
 

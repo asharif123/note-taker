@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 
 const fs = require('fs');
-const util = require('util');
 
 // Helper method for generating unique ids
 const uuid = require('./helpers/uuid');
@@ -30,18 +29,13 @@ app.get('/notes', (req, res) => {
 
 //`GET /api/notes` should read the `db.json` file 
 // and return all saved notes as JSON.
-
-//util.promisify takes a function following the common Node.js callback style, i.e. taking a (err, value) => 
-//… callback as the last argument, and returns a version that returns promises.
-// const readFromFile = util.promisify(fs.readFile);
-
 //without the await method, readFromFile never finishes its process
-app.get('/api/notes', async (req, res) => {
+app.get('/api/notes', (req, res) => {
     console.log(`${req.method} METHOD received to grab all notes!`);
     const db = fs.readFileSync('./public/db/db.json', 'utf-8');
+    //either turn the notes database into an object or return empty list
     const notes = JSON.parse(db || [])
-    // await readFromFile('./public/db/db.json').then((data) => res.json(JSON.parse(data || [])));
-    res.json(notes)
+    res.json(notes);
 });
 
 // `POST /api/notes` should receive a new note to save on the request body, 
@@ -52,6 +46,7 @@ app.get('/api/notes', async (req, res) => {
 app.post('/api/notes', (req, res) => {
     const title = req.body.title;
     const text = req.body.text;
+    // if user has typed in something in title and text, create a note with random id and add to the webpage
     if (title, text) {
         const newNote = {
             title,
@@ -63,14 +58,18 @@ app.post('/api/notes', (req, res) => {
             body: newNote,
         };
     
+        // take the original notes database by reading existing notes from it
+        // turn it into an object to parse data to it
+        // take the newNote we created and push it into jsonNotes
+        // write the notes database we created into db.json
         try {
             const notes = fs.readFileSync('./public/db/db.json', 'utf-8');
-            console.log("NOTES", notes); // returns a number instead of notes
+            // console.log("NOTES", notes); // returns a number instead of notes
             const jsonNotes = JSON.parse(notes);
-            console.log("json NOTES", jsonNotes);
-            console.log("NEW NOTE", newNote); // returns note { title: 'ddd', text: 'gsgs', id: '0ae1' }
+            // console.log("json NOTES", jsonNotes);
+            // console.log("NEW NOTE", newNote); // returns note { title: 'ddd', text: 'gsgs', id: '0ae1' }
             jsonNotes.push(newNote); 
-            console.log("ALL NOTES", jsonNotes); // returns a number instead of notes
+            // console.log("ALL NOTES", jsonNotes); // returns a number instead of notes
             fs.writeFileSync('./public/db/db.json', JSON.stringify(jsonNotes));
 
         }
@@ -90,6 +89,24 @@ app.post('/api/notes', (req, res) => {
 
 })
 
+//URL to delete a note from database (using: `DELETE /api/notes/:id` )
+//read data from db.json file, use a foreach to iterate through each note
+//if the id we find matches the id we want to delete, remove from database using splice
+//and rewrite the new notes database to db.json file
+app.delete('/api/notes/:id', (req, res) => {
+    
+    const db = fs.readFileSync('./public/db/db.json', 'utf-8');
+    const jsonNotes = JSON.parse(db);
+    console.log("DATABASE!", jsonNotes);
+    console.log(req.params.id);
+    jsonNotes.forEach((note) => {
+        if (note.id === req.params.id) {
+            console.log("DELETED NOTE", note);
+            jsonNotes.splice(jsonNotes.indexOf(note),1);
+        }
+    })
+    fs.writeFileSync('./public/db/db.json', JSON.stringify(jsonNotes));
+})
 
 //listen to the particular PORT to render index.html webpage
 app.listen(PORT, () => 
