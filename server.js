@@ -12,19 +12,17 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-
+//serves all public files from express server
 app.use(express.static(path.join(__dirname, 'public')));
 
 // display the index.html webpage
 app.get('/', (req, res) => {
     res.redirect("index.html");
-    // res.sendFile(path.join(__dirname, '/public/index.html'))
 })
 
 //display notes.html webpage
 app.get('/notes', (req, res) => {
     res.redirect("notes.html");
-    // res.sendFile(path.join(__dirname, './public/notes.html'))
 })
 
 //`GET /api/notes` should read the `db.json` file 
@@ -33,7 +31,8 @@ app.get('/notes', (req, res) => {
 app.get('/api/notes', (req, res) => {
     console.log(`${req.method} METHOD received to grab all notes!`);
     const db = fs.readFileSync('./public/db/db.json', 'utf-8');
-    //either turn the notes database into an object or return empty list
+//either turn the notes database into an object or return empty list
+//note: empty list is used to store every note that is represented as an object
     const notes = JSON.parse(db || [])
     res.json(notes);
 });
@@ -104,6 +103,7 @@ app.delete('/api/notes/:id', (req, res) => {
             console.log("DELETED NOTE", note);
             jsonNotes.splice(jsonNotes.indexOf(note),1);
             fs.writeFileSync('./public/db/db.json', JSON.stringify(jsonNotes));
+//return a response when note has been deleted from the database
             res.json("OK!");
         }
     })

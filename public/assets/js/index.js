@@ -4,7 +4,7 @@ let saveNoteBtn;
 let newNoteBtn;
 let noteList;
 
-// get the corresponding querySelectors from /notes URL
+// get the corresponding querySelectors from /notes.html webpage
 if (window.location.pathname === '/notes.html') {
   noteTitle = document.querySelector('.note-title');
   noteText = document.querySelector('.note-textarea');
@@ -85,8 +85,7 @@ const handleNoteSave = () => {
     title: noteTitle.value,
     text: noteText.value,
   };
-  console.log(newNote);
-  // if newNote exists then render the note
+// if newNote exists then render the note
   saveNote(newNote).then(() => {
     getAndRenderNotes();
     renderActiveNote();
@@ -127,7 +126,6 @@ const handleNewNoteView = (e) => {
 
 // if nothing is written in noteTitle or noteText, hide the savebutton. else display it!
 const handleRenderSaveBtn = () => {
-  console.log(noteTitle.value, noteText.value);
   if (!noteTitle.value.trim() || !noteText.value.trim()) {
     hide(saveNoteBtn);
   } else {
@@ -140,7 +138,6 @@ const handleRenderSaveBtn = () => {
 // show the list of note titles
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
-  console.log("NOTES", jsonNotes);
   if (window.location.pathname === '/notes.html') {
     console.log(noteList)
 // used to remove prev nodes so that we dont have repeating elements
@@ -189,10 +186,8 @@ const renderNoteList = async (notes) => {
     noteListItems.push(li);
     console.log(noteListItems)
   });
-  console.log(window.location.pathname);
   if (window.location.pathname === '/notes.html') {
     noteListItems.forEach((note) => noteList[0].append(note));
-    console.log("NOTES", noteList)
   }
 };
 
