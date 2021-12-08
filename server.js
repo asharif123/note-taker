@@ -103,9 +103,10 @@ app.delete('/api/notes/:id', (req, res) => {
         if (note.id === req.params.id) {
             console.log("DELETED NOTE", note);
             jsonNotes.splice(jsonNotes.indexOf(note),1);
+            fs.writeFileSync('./public/db/db.json', JSON.stringify(jsonNotes));
+            res.json("OK!");
         }
     })
-    fs.writeFileSync('./public/db/db.json', JSON.stringify(jsonNotes));
 })
 
 //listen to the particular PORT to render index.html webpage
