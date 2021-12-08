@@ -19,3 +19,9 @@ Express.js framework is implemented to connect the frontend to backend framework
 This is the main home page where the user is give the option to enter notes by clicking on the "Get Started" button.
 
 ![alt-text](./public/assets/images/note-taker-1.JPG "main-page")
+
+After clicking on "Get Started", the user is redirected to the notes webpage where the user can enter the title and description of the note to be added.
+
+The user can also see previous notes and delete them by clicking on the red trash can button.
+
+![alt-text](./public/assets/images/note-taker-2.JPG "main-page")
