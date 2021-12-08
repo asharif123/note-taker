@@ -24,4 +24,12 @@ After clicking on "Get Started", the user is redirected to the notes webpage whe
 
 The user can also see previous notes and delete them by clicking on the red trash can button.
 
-![alt-text](./public/assets/images/note-taker-2.JPG "main-page")
+![alt-text](./public/assets/images/note-taker-2.JPG "notes-page")
+
+Only when the user types content on both the note title and description sections does the user see the "Save icon" button on the top right.
+
+When clicked, the note gets saved and gets added on the left hand column. The user can see previous note information by simply clicking on any note on the left hand column.
+
+Clicking on the "Plus" icon on the top left allows the user to create a new note.
+
+![alt-text](./public/assets/images/note-taker-3.JPG "notes-page")
