@@ -63,12 +63,10 @@ app.post('/api/notes', (req, res) => {
         // write the notes database we created into db.json
         try {
             const notes = fs.readFileSync('./public/db/db.json', 'utf-8');
-            // console.log("NOTES", notes); // returns a number instead of notes
+            // turns notes from JSON string to javascript object
             const jsonNotes = JSON.parse(notes);
-            // console.log("json NOTES", jsonNotes);
-            // console.log("NEW NOTE", newNote); // returns note { title: 'ddd', text: 'gsgs', id: '0ae1' }
             jsonNotes.push(newNote); 
-            // console.log("ALL NOTES", jsonNotes); // returns a number instead of notes
+            // reconvert jsonNotes to string that gets added to db.json database
             fs.writeFileSync('./public/db/db.json', JSON.stringify(jsonNotes));
 
         }
@@ -96,11 +94,8 @@ app.delete('/api/notes/:id', (req, res) => {
     
     const db = fs.readFileSync('./public/db/db.json', 'utf-8');
     const jsonNotes = JSON.parse(db);
-    console.log("DATABASE!", jsonNotes);
-    console.log(req.params.id);
     jsonNotes.forEach((note) => {
         if (note.id === req.params.id) {
-            console.log("DELETED NOTE", note);
             jsonNotes.splice(jsonNotes.indexOf(note),1);
             fs.writeFileSync('./public/db/db.json', JSON.stringify(jsonNotes));
 //return a response when note has been deleted from the database
