@@ -15,3 +15,7 @@ Javascript was used to add the functional logic of allowing users to add/edit/de
 Express.js framework is implemented to connect the frontend to backend framework, create a GET, POST, and DELETE requests to either retrieve all notes from the database, send note data to the database, or to delete a specific note based off it's id, and also used to deploy the full stack website through Heroku.
 
 # Screenshots
+
+This is the main home page where the user is give the option to enter notes by clicking on the "Get Started" button.
+
+![alt-text](./public/assets/images/note-taker-1.JPG "main-page")
