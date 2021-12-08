@@ -13,3 +13,5 @@ This was created using HTML, CSS, Bootstrap, Javascript and Express.js framework
 Javascript was used to add the functional logic of allowing users to add/edit/delete notes.
 
 Express.js framework is implemented to connect the frontend to backend framework, create a GET, POST, and DELETE requests to either retrieve all notes from the database, send note data to the database, or to delete a specific note based off it's id, and also used to deploy the full stack website through Heroku.
+
+# Screenshots
